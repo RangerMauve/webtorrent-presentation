@@ -1,43 +1,459 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Title</title>
+    <title>WebTorrent - RangerMauve</title>
     <meta charset="utf-8">
     <style>
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
       @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-      body { font-family: 'Droid Serif'; }
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
       h1, h2, h3 {
-        font-family: 'Yanone Kaffeesatz';
+        /* font-family: 'Yanone Kaffeesatz'; */
         font-weight: normal;
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
+      .purplebg {
+        background: #ae40ca;
+        color: white;
+      }
+
+      .purplebg a:link, .purplebg a:visited {
+        color: inherit;
+      }
+
+      .wtbg {
+        background: rgb(239, 51, 76);
+        color: white;
+      }
+
+      .cfbg {
+        background: rgb(244, 129, 32);
+        color: white;
+      }
+
+      .greytext {
+        color: darkgray;
+      }
+      .highlightedtext {
+        color: #ae40ca;
+      }
+
+      img, video {
+        width: 70vmin;
+        height: 70vmin;
+        object-fit: contain;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
     <textarea id="source">
 
+class: center, middle, wtbg
+
+## Sharing Bandwidth With
+
+# 🎉 WebTorrent 🎉
+
+(Press P notes)
+
+---
+
+class: center, middle, purplebg
+
+### Georgiy Shibaev
+
+Freelancer - _Mauve Software Inc_
+
+<small>(Hire me!)</small>
+
+@RangerMauve
+
+[Mastodon](https://infosec.exchange/@RangerMauve) [GitHub](https://github.com/RangerMauve/) [Twitter](https://twitter.com/RangerMauve)
+
+---
+
 class: center, middle
 
-# Title
+## 🤷‍♀️ Centralization 🤷‍♂️
+
+???
+
+In order for any of this presentation to make sense, we should look into what our current approach to data is.
 
 ---
 
-# Agenda
+class: center, middle
 
-1. Introduction
-2. Deep-dive
-3. ...
+### 🌟 Star Toplogy 🌟
+
+???
+
+Let's talk about application network topologies.
 
 ---
 
-# Introduction
+class: center, middle
+
+![Example of star topology, a single computer in the middle, with several phones all connecting directly to it](star.svg)
+
+???
+
+So, with the web, and really any services people build these days, clients interact with their data with what's called a star toplogy.
+
+At the center you have a hub, and it's surrounded by spokes.
+
+In the case of the web, the hub is the website or the servers, or cloud stuff being hosted by the service provider, and the spokes are the clients actually accessing data. So, in the middle is the provider, and we're all around it.
+
+---
+
+class: center, middle
+
+![A star topology with two smiley faces with a highlighted path between them to show that they're connecting through the hub](star-connection.svg)
+
+???
+
+If you want to share data with somebody, you first need to go through the central hub
+
+The more popular a service is, the more load is has to take on.
+
+For example, you might have a small blog where you like to post about your cats, and suddenly a video of your cat goes
+viral.
+
+---
+
+class: center, middle
+
+![A star topogy with more phones connected to the central server](star-heavy.svg)
+
+???
+
+Now you have waay more people connecting to your website, and every single person is downloading your entire cat video or whatever else you have on there.
+
+---
+
+class: center, middle
+
+![Star topology where the hub in the middle is dead, all the other connected clients are angry faces](star-dead.svg)
+
+???
+
+Eventually, servers go down. And when a server goes down, whatever data they represented, or whatever service they provided, goes down with them.
+
+That's why when Slack or Github go down, we suddenly have hours of productivity loss.
+
+"So what?", you might be thinking, "That's why we throw more servers at the problem and have more capacity for higher load, it's something we deal with, and there's no way around it if you want to build services"
+
+---
+
+class: center, middle
+
+## ✨ Mesh Topology ✨
+
+???
+
+Well, what if you could structure your application differently to work around these limitations rather than throwing more money at the infrastructure?
+
+---
+
+class: center, middle
+
+![Mesh topology, there are 9 computers, and they each connect to one or more other computers, formight a mesh](mesh.svg)
+
+???
+
+Here's another way you can distribute data.
+
+This is called a mesh toplogy. Mesh in the sense that there's a bunch of connections forming a sort of fabric.
+
+There's no central hub for clients to connect to, everyone is getting data, and sharing it with it's peers
+
+---
+
+class: center, middle
+
+![A mesh of computers, with two of them being smiley faces. A purple route is highligted that goes from one smiley, to a computer it's connected to, and to the other smiley that's also connected to that computer](mesh-connection.svg)
+
+???
+
+For example, we could have two people share some data with each other through a route in the mesh
+
+---
+
+class: center, middle
+
+![A mesh of computers, two smiley faces have a route highlighted, but the computer between them is dead](mesh-dead.svg)
+
+???
+
+Now, what if that route was suddenly broken? Maybe the intermediate node got overwhealmed, or went offline.
+
+Suddenly we're in the same situation as the star topology, we can't exchange data!
+
+---
+
+class: center, middle
+
+![Same mesh of computers as before, but the dead computer is missing and a new route has been highlighted between the smiley faces](mesh-reroute.svg)
+
+???
+
+Well, since there's still connections left, we can take a different route and everything will work just as before.
+
+This shows how a mesh network is a lot more resiliant to downtime right out of the box. You get the load balancing features that we need to set up with the centralized web, but it's done automatically across clients rather than your own infrastructure.
+
+---
+
+class: center, middle
+
+![A mesh of computers. There are two sunglasses smiley faces and they both have routes to a smiley face with stars in its eyes](mesh-multiple.svg)
+
+???
+
+Notice that we could have multiple routes at once, or might be connected directly to the device we want to load from. This gives us better speeds by loading from multiple peers in parallell.
+
+---
+
+class: center, middle
+
+# 😎 Cool 😎
+
+???
+
+So now that you know some of the reasoning behind distributing the load, lets look at how we can actually do something with these ideas.
+
+---
+
+class: center, middle
+
+![BitTorrent logo](Bittorrent_new_logo.svg)
+
+???
+
+So, I'm sure some of you have used BitTorrent before. Either conciously for downloading large virtual machine images, or embedded inside launchers for MMO games to help with performance when downloading patches.
+
+BitTorrent is a proven and stable spec with a large veriety of implementations and clients.
+
+---
+
+class: center, middle
+
+![WebTorrent logo](WebTorrent_logo.png)
+
+???
+
+WebTorrent is an implementation of BitTorrent that works on the web. It uses WebRTC to make connections to other computers that have a website open in order to share the load for media that's embedded within it.
+
+It's all open source and the various pieces can be reused for any custom behaviors that you might want if the default implementation doesn't satisfy you.
+
+---
+
+class: center, middle, wtbg
+
+## 🧩 Creating a torrent 🧩
+
+???
+
+So, how do I use this complicated "Torrent" thing anyway? Something this complicated must involve a lot of steps to
+use!
+
+---
+
+class: center, middle
+
+```shell
+npm install webtorrent-hybrid -g
+webtorrent-hybrid seed ./somefolder
+```
+
+???
+
+Well, it's actually not as crazy as you'd imagine. All you need to do is make a folder with your files, run the
+webtorrent CLI on it, and copy the magnet link.
+
+---
+
+class: middle
+
+```shell
+Seeding: ./somefolder
+Info hash: 6bdc5c71fb40a737714634a0a0ce168e88860f54
+Speed: 0 B/s Downloaded: 990 KB/990 KB Uploaded: 0 B
+Running time: 22 seconds Time remaining: N/A Peers: 0/0
+```
+
+???
+
+Then, leave the process running so that peers can connect to it to download the files.
+
+If you want to get fancier than that, there's a Node.js JavaScript API that you can use to have whatever behavior you'd
+like.
+
+Now, see that thing that says "Info hash", that's a unique identifier for your torrent on the network.
+
+---
+
+class: center, middle
+
+### Magnet URI
+
+<span class="greytext" title="An example of a magnet URI. It uses the magnet protocol, and has a portion for the infohash">
+  <span class="highlightedtext">magnet:</span>?xt=urn:btih:<span class="highlightedtext">08ada5a7a6183aae1e09d831df6748d566095a10</span>
+</span>
+
+???
+
+That infohash is taken and shoved into a special link called a Magnet URI.
+
+The way BitTorrent works is it takes all the data in your folder, looks at the contents of the files, and creates the "infohash" by running the data through some fancy math.
+
+This infohash is then put in the magnet link, and is used as an ID to identify peers with the torrent.
+
+It's also used for verifying that the data you're downloading from a peer is valid.
+
+If a peer tries to send you a file with something sketchy in it, that file will have a different infohash and be discarded by your torrent software before you're exposed to it.
+
+---
+
+class: center, middle, wtbg
+
+## 📺 Embedding Videos 📺
+
+???
+
+Ok, so now we're BitTorrent experts, but how do we actually use this stuff with a website?
+
+So, I was originally going to go into the WebTorrent JavaScript API and go into the nitty gritty of how to load torrents and stuff, but I'm going to save you some trouble.
+
+---
+
+class: center, middle
+
+## [WebTorrent-element](https://github.com/mikeal/webtorrent-element)
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/webtorrent-element@latest/dist/webtorrent-element.min.js"></script>
+<web-torrent
+  src="magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent"
+  file="Sintel.mp4" />
+```
+
+???
+
+All you need to do to load one of these torrents is add a script tag to your page, and now you'll have a new custom element that lets you specify the magnet URI of the torrent, and the name of the file you want to load.
+
+From there it will find peers that have the torrent, load the file from them, and render it out on your page.
+
+---
+
+class: center, middle
+
+<web-torrent
+  src="magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent"
+  file="Sintel.mp4" />
+
+---
+
+class: center, middle, purplebg
+
+## 🌱 Seeding 🌱
+
+???
+
+Now, in a peer to peer network, you need to have at least one peer out there that has the content, otherwise there's no
+way to download it.
+
+With that in mind, you have two options:
+
+---
+
+class: center, middle
+
+## CLI
+
+```shell
+webtorrent-hybrid download magnet:?xt=urn:btih:WHATEVER --keep-seeding
+```
+
+???
+
+Earlier, I showed you how to create a torrent from a folder.
+
+Here's how you can load a torrent you don't have yet and share it to the network.
+
+This does the same thing as loading the torrent in a clients browser, but it stays online for as long as you keep running it. This is different than having a centralized node because it doesn't have any special permissions and as more peers load the content it'll be less and less important.
+
+---
+
+class: center, middle
+
+## WebSeed
+
+```shell
+webtorrent-hybrid seed ./somefolder
+  \ --urlList 'https://cdn.example.com/file.mov' file.mov
+```
+
+???
+
+Of course, running some sort of Node.js command line utility might not make sense for your use case.
+
+There's an easier way for you as a content creator to make sure that the content is loadable, even if there are no WebTorrent peers online that have a copy of it.
+
+And thats... regular old webservers!
+
+When you create a torrent, you can specify HTTP URLs for files in the torrent. That way you can have a folder on your webserver with these files, and peers will reach out to it to download them.
+
+---
+
+class: center, middle, cfbg
+
+### Content Delivery Networks
+
+(CloudFlare, Akamai, Etc)
+
+???
+
+Now, distributing large amounts of content is something that we deal with every day when developing websites.
+
+And there's already a tried and proven solution for this issue: Content Deliver Networks.
+
+They work by having servers distributed across the globe which keep a copy of your files. Then, when a client wants to load your content, they'll load it from whichever CDN server is closest to them geographically rather than your main server.
+
+This is great, but it costs money, and you need to trust that CDNs won't start imposing extra restrictions and that they won't invade your users privacy.
+
+The cool thing is that you can use both! Use CDNs as your webseed, and have WebTorrent for sharing load further.
+
+---
+
+class: center, middle
+
+![PeerTube logo](PeerTube.png)
+
+???
+
+PeerTube is a decentralized alternative to YouTube.
+
+PeerTube uses a spec called ActivityPub to allow different instances to talk to each other.
+
+Think of it like being able to post a video on Tik Tok, and have somebody from Instagram able to view and comment on it without having to leave their app and make another account.
+
+PeerTube uses WebTorrent with videos hosted in instances in order to share the bandwidth amongths the viewers and make it more feasible for communities to run their own PeerTube instances.
+
+---
+
+class: center, middle, purplebg
+
+# 🎉🎊 End 🎊🎉
 
     </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
-    </script>
+    <script src="webtorrent-element.min.js"></script>
+    <script src="remark-latest.min.js"></script>
     <script>
       var slideshow = remark.create();
     </script>

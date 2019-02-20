@@ -47,13 +47,15 @@ For example, we could have two people share some data with each other through a 
 
 ### Mesh topology with dead node, dead route
 
-No, what if that route was suddenly broken? Maybe the intermediate node got overwhealmed, or went offline.
+Now, what if that route was suddenly broken? Maybe the intermediate node got overwhealmed, or went offline.
 
 Suddenly we're in the same situation as the star topology, we can't exchange data!
 
 ### Mesh topology with new route
 
 Well, since there's still connections left, we can take a different route and everything will work just as before.
+
+### Mesh topology with multiple routes
 
 Notice that we could potentially have multiple routes at once, or might be connected directly to the device we want to load from. This gives us better speeds by loading from a lot of peers in parallell.
 
@@ -115,7 +117,7 @@ The way it works is it takes all the data in your folder, looks at the contents 
 
 ## [WebTorrent-element](https://github.com/mikeal/webtorrent-element)
 
-Ok, so now we're BitTorrent experts, but how do we actually use this stuff?
+Ok, so now we're BitTorrent experts, but how do we actually use this stuff with a website?
 
 So, I was originally going to go into the WebTorrent JavaScript API and go into the nitty gritty of how to load torrents and stuff, but I'm going to save you some trouble.
 
@@ -161,6 +163,5 @@ The cool thing is that you can use both! Use CDNs as your webseed, and have WebT
 
 ## [PeerTube](https://joinpeertube.org/en/)
 
-Is a decentralized alternative to YouTube. PeerTube uses a spec called ActivityPub to allow different instances to talk to each other. Think of it like being able to post a video on Tik Tok, and have somebody from Youtube able to view and comment on it without having to leave their app and make another account. PeerTube uses WebTorrent with videos hosted in instances in order to share the bandwidth amongths the viewers and make it more feasible for communities to run their own PeerTube instances.
 
 ## Thank you

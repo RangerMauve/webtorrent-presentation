@@ -1,0 +1,40 @@
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 600 600" width="600" height="600">
+	<!--
+		Reference:
+
+		Four spots: 120 240 360 480
+		Three spots: 150 300 450
+		Two Spots: 200 400
+
+		Purple: #ae40ca
+	-->
+	
+	<style>
+		text {
+			font-size: 60px;
+			dominant-baseline: middle;
+			text-anchor: middle;
+		}
+
+		line {
+			stroke: black;
+			stroke-width: 4px;
+		}
+
+		line.connection {
+			stroke: #ae40ca;
+			stroke-width: 8px;
+		} 
+	</style>
+	<line x1="150" y1="450" x2="300" y2="300"/>
+	<line x1="150" y1="150" x2="300" y2="300" class="connection"/>
+	<line x1="450" y1="150" x2="300" y2="300"/>
+	<line x1="450" y1="450" x2="300" y2="300" class="connection"/>
+	
+	<text x="150" y="450">📱</text>
+	<text x="150" y="150">😎</text>
+	<text x="450" y="150">📱</text>
+	<text x="450" y="450">😲</text>
+
+	<text x="300" y="300">💻</text>
+</svg>
